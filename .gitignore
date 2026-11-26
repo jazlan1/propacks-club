@@ -1,0 +1,33 @@
+# Dependencies & Build
+node_modules/
+dist/
+.vite/
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Database, Uploads & Backups (Never overwrite live server data)
+server/data/*.db
+server/data/*.db-wal
+server/data/*.db-shm
+server/data/.jwt_secret
+public/images/uploads/*
+!public/images/uploads/.gitkeep
+public/images/products/*
+!public/images/products/.gitkeep
+backups/
+*.sql
+*.sqlite
+*.zip
+
+# Raw Archives, Media & Deployment Packages
+propack.club-2026-11-25/
+my-products/
+FINAL-DEPLOYMENT/
+*.log
+.DS_Store
+Thumbs.db

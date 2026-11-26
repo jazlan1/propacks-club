@@ -1,0 +1,16 @@
+{
+  "name": "PRO PACKS",
+  "short_name": "PRO PACKS",
+  "description": "Los Angeles craft bulk flower, disposables, and concentrates marketplace.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f7f4",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
