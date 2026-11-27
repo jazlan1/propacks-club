@@ -979,17 +979,61 @@ export function SettingsBackupModule({ settings, faqs, health, onReload, notify,
           <textarea rows={2} value={form.footer_about || ''} onChange={(e) => setForm({ ...form, footer_about: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
         </label>
 
-        <div className="font-display" style={{ fontSize: 16, marginTop: 6 }}>HERO, SEO &amp; MAINTENANCE</div>
+        <div className="font-display" style={{ fontSize: 16, marginTop: 6 }}>HERO, HOW TO ORDER, SEO &amp; MAINTENANCE</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
+          <label className="font-mono" style={{ fontSize: 11 }}>
+            Hero Badge Text
+            <input value={form.hero_badge || 'SEALED PACKS · LOS ANGELES · EST. 2023'} onChange={(e) => setForm({ ...form, hero_badge: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
+          </label>
           <label className="font-mono" style={{ fontSize: 11 }}>
             Hero Title
             <input value={form.hero_title || ''} onChange={(e) => setForm({ ...form, hero_title: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
           </label>
+        </div>
+        <label className="font-mono" style={{ fontSize: 11 }}>
+          Hero Subtitle
+          <textarea rows={2} value={form.hero_subtitle || ''} onChange={(e) => setForm({ ...form, hero_subtitle: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
+        </label>
+
+        <div className="font-display" style={{ fontSize: 14, marginTop: 4 }}>HOW TO ORDER SECTION</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
+          <label className="font-mono" style={{ fontSize: 11 }}>
+            Section Heading
+            <input value={form.how_to_order_title || 'HOW TO ORDER'} onChange={(e) => setForm({ ...form, how_to_order_title: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
+          </label>
+          <label className="font-mono" style={{ fontSize: 11 }}>
+            Step 1 Text
+            <input value={form.how_to_order_step1 || '1. Add Items to Your Cart'} onChange={(e) => setForm({ ...form, how_to_order_step1: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
+          </label>
+          <label className="font-mono" style={{ fontSize: 11 }}>
+            Step 2 Text
+            <input value={form.how_to_order_step2 || '2. Screenshot your Cart'} onChange={(e) => setForm({ ...form, how_to_order_step2: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
+          </label>
+          <label className="font-mono" style={{ fontSize: 11 }}>
+            Step 3 Text
+            <input value={form.how_to_order_step3 || '3. Send to us on Signal Or Telegram'} onChange={(e) => setForm({ ...form, how_to_order_step3: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
+          </label>
+        </div>
+        <label className="font-mono" style={{ fontSize: 11 }}>
+          Order Disclaimers
+          <textarea rows={2} value={form.order_disclaimer || 'No Re-ships for wrong address. Please specify payment method and ensure your info is correct. Non-refundable policy'} onChange={(e) => setForm({ ...form, order_disclaimer: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
+        </label>
+
+        <div className="font-display" style={{ fontSize: 14, marginTop: 4 }}>SEO &amp; SOCIAL PREVIEW</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
           <label className="font-mono" style={{ fontSize: 11 }}>
             SEO Title
             <input value={form.seo_title || ''} onChange={(e) => setForm({ ...form, seo_title: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
           </label>
+          <label className="font-mono" style={{ fontSize: 11 }}>
+            OG / Social Share Image URL
+            <input value={form.og_image || '/images/propacks-logo.jpg'} onChange={(e) => setForm({ ...form, og_image: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
+          </label>
         </div>
+        <label className="font-mono" style={{ fontSize: 11 }}>
+          SEO Keywords (comma-separated)
+          <input value={form.seo_keywords || ''} onChange={(e) => setForm({ ...form, seo_keywords: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />
+        </label>
         <label className="font-mono" style={{ fontSize: 11 }}>
           SEO Meta Description
           <textarea rows={2} value={form.seo_description || ''} onChange={(e) => setForm({ ...form, seo_description: e.target.value })} style={{ ...inputStyle, width: '100%', marginTop: 4 }} />

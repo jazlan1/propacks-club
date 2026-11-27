@@ -745,10 +745,11 @@ app.post('/api/contact', (req, res) => {
 
 // Dynamic XML Sitemap for SEO
 app.get('/sitemap.xml', (req, res) => {
-  const origin = `${req.protocol}://${req.get('host')}`;
+  const proto = req.get('x-forwarded-proto') || req.protocol;
+  const origin = `${proto}://${req.get('host')}`;
   const staticRoutes = ['/', '/menu', '/deals', '/about', '/faq', '/contact', '/track-order'];
   const cats = db.prepare('SELECT slug FROM categories').all();
-  const prods = db.prepare('SELECT slug, created_at FROM products').all();
+  const prods = db.prepare('SELECT slug, created_at FROM products WHERE is_published = 1').all();
 
   const urls = [
     ...staticRoutes.map((r) => `<url><loc>${origin}${r}</loc><changefreq>daily</changefreq><priority>${r === '/' ? '1.0' : '0.8'}</priority></url>`),

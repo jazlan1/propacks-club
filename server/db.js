@@ -381,10 +381,19 @@ function seedSiteSettings() {
   const defaults = [
     ['site_name', 'PRO PACKS'],
     ['tagline', 'SEALED · CURED · CERTIFIED · EST. 2023'],
+    ['hero_badge', 'SEALED PACKS · LOS ANGELES · EST. 2023'],
     ['hero_title', 'BAGGED. SEALED. DELIVERED.'],
     [
       'hero_subtitle',
       "LA's premier craft bulk source. Every batch is hang-dried, jar-cured, and triple vacuum-sealed before it leaves our room.",
+    ],
+    ['how_to_order_title', 'HOW TO ORDER'],
+    ['how_to_order_step1', '1. Add Items to Your Cart'],
+    ['how_to_order_step2', '2. Screenshot your Cart'],
+    ['how_to_order_step3', '3. Send to us on Signal Or Telegram'],
+    [
+      'order_disclaimer',
+      'No Re-ships for wrong address. Please specify payment method and ensure your info is correct. Non-refundable policy',
     ],
     [
       'marquee_text',
@@ -399,6 +408,11 @@ function seedSiteSettings() {
       'seo_description',
       "PRO PACKS is LA's premier bulk flower, disposables, and craft concentrates source. Hand-selected drops, triple vacuum-sealed freshness, and fast tracked delivery.",
     ],
+    [
+      'seo_keywords',
+      'PRO PACKS, bulk flower, indoor flower, exotic strains, live resin disposables, concentrates, Los Angeles',
+    ],
+    ['og_image', '/images/propacks-logo.jpg'],
     ['maintenance_mode', 'false'],
   ];
 

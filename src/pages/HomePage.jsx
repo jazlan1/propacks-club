@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CalendarCheck, Camera, Package, Sparkles } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import SeoHead from '../components/SeoHead';
 import { apiFetch } from '../lib/api';
 import { useStore } from '../context/StoreContext';
 
@@ -9,6 +10,18 @@ export default function HomePage() {
   const { recentlyViewed, totalCatalogCount, siteConfig } = useStore();
   const signalUrl = siteConfig?.signal_url || 'https://signal.me';
   const telegramUrl = siteConfig?.telegram_url || 'https://t.me/propacksclub';
+  const heroBadge = siteConfig?.hero_badge || 'SEALED PACKS · LOS ANGELES · EST. 2023';
+  const heroTitle = siteConfig?.hero_title || 'BAGGED. SEALED. DELIVERED.';
+  const heroSubtitle =
+    siteConfig?.hero_subtitle ||
+    "LA's premier craft bulk source. Every batch is hang-dried, jar-cured, and triple vacuum-sealed before it leaves our room.";
+  const howTitle = siteConfig?.how_to_order_title || 'HOW TO ORDER';
+  const howStep1 = siteConfig?.how_to_order_step1 || '1. Add Items to Your Cart';
+  const howStep2 = siteConfig?.how_to_order_step2 || '2. Screenshot your Cart';
+  const howStep3 = siteConfig?.how_to_order_step3 || '3. Send to us on Signal Or Telegram';
+  const orderDisclaimer =
+    siteConfig?.order_disclaimer ||
+    'No Re-ships for wrong address. Please specify payment method and ensure your info is correct. Non-refundable policy';
   const [todaysDrop, setTodaysDrop] = useState([]);
   const [specialDeals, setSpecialDeals] = useState([]);
   const [indoorDrops, setIndoorDrops] = useState([]);
@@ -35,8 +48,21 @@ export default function HomePage() {
       .finally(() => setLoading(false));
   }, []);
 
+  const homeJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteConfig?.site_name || 'PRO PACKS',
+    url: typeof window !== 'undefined' ? window.location.origin : 'https://propacks.club',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${typeof window !== 'undefined' ? window.location.origin : 'https://propacks.club'}/menu?search={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
     <main>
+      <SeoHead jsonLd={homeJsonLd} id="pp-home-ld" />
       {/* Editorial Hero */}
       <section
         style={{
@@ -70,7 +96,7 @@ export default function HomePage() {
                   marginBottom: 18,
                 }}
               >
-                <Sparkles size={13} /> SEALED PACKS · LOS ANGELES · EST. 2023
+                <Sparkles size={13} /> {heroBadge}
               </div>
 
               <h1
@@ -81,11 +107,16 @@ export default function HomePage() {
                   lineHeight: 0.96,
                 }}
               >
-                BAGGED.
-                <br />
-                SEALED.
-                <br />
-                <span style={{ color: 'var(--accent)' }}>DELIVERED.</span>
+                {heroTitle.split(' ').map((word, idx, arr) =>
+                  idx === arr.length - 1 ? (
+                    <span key={idx} style={{ color: 'var(--accent)' }}>{word}</span>
+                  ) : (
+                    <React.Fragment key={idx}>
+                      {word}
+                      <br />
+                    </React.Fragment>
+                  )
+                )}
               </h1>
 
               <p
@@ -97,9 +128,7 @@ export default function HomePage() {
                   margin: '0 0 28px',
                 }}
               >
-                LA's premier craft bulk source. Every batch is hang-dried, jar-cured, and triple
-                vacuum-sealed before it leaves our room. Select your weight tier, check out online
-                in seconds, and track your drop straight to your door.
+                {heroSubtitle}
               </p>
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
@@ -358,7 +387,7 @@ export default function HomePage() {
               color: '#ffffff',
             }}
           >
-            HOW TO ORDER
+            {howTitle}
           </h2>
 
           <div
@@ -372,21 +401,21 @@ export default function HomePage() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
               <CalendarCheck size={42} strokeWidth={1.75} color="#ffffff" />
               <div style={{ fontSize: 15, fontWeight: 600, color: '#f5f5f5' }}>
-                1. Add Items to Your Cart
+                {howStep1}
               </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
               <Camera size={42} strokeWidth={1.75} color="#ffffff" />
               <div style={{ fontSize: 15, fontWeight: 600, color: '#f5f5f5' }}>
-                2. Screenshot your Cart
+                {howStep2}
               </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
               <Package size={42} strokeWidth={1.75} color="#ffffff" />
               <div style={{ fontSize: 15, fontWeight: 600, color: '#f5f5f5' }}>
-                3. Send to us on Signal Or Telegram
+                {howStep3}
               </div>
             </div>
           </div>
@@ -456,8 +485,7 @@ export default function HomePage() {
             }}
           >
             <div style={{ fontWeight: 700, color: '#ffffff', marginBottom: 4 }}>*DISCLAIMERS:</div>
-            No Re-ships for wrong address. Please specify payment method and ensure your info is
-            correct. Non-refundable policy
+            {orderDisclaimer}
           </div>
         </div>
       </section>
