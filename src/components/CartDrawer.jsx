@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ShoppingBag, Copy, Check } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
-import { formatMoney } from '../lib/api';
+import { formatMoney, formatCartOrderText, copyTextToClipboard } from '../lib/api';
 
 export default function CartDrawer() {
   const {
@@ -12,9 +12,27 @@ export default function CartDrawer() {
     cartSubtotal,
     updateCartQty,
     removeFromCart,
+    siteConfig,
+    addToast,
   } = useStore();
+  const [copied, setCopied] = useState(false);
 
   if (!cartOpen) return null;
+
+  const signalUrl = siteConfig?.signal_url || 'https://signal.me';
+  const telegramUrl = siteConfig?.telegram_url || 'https://t.me/propacksclub';
+
+  const handleCopyCart = async () => {
+    const text = formatCartOrderText({ cart, subtotal: cartSubtotal, total: cartSubtotal });
+    const ok = await copyTextToClipboard(text);
+    if (ok) {
+      setCopied(true);
+      addToast('Cart copied! Paste & send on Signal or Telegram.', 'success');
+      setTimeout(() => setCopied(false), 2500);
+    } else {
+      addToast('Could not copy automatically. Please screenshot your cart.', 'error');
+    }
+  };
 
   const freeShippingThreshold = 300;
   const remaining = Math.max(0, freeShippingThreshold - cartSubtotal);
@@ -183,14 +201,35 @@ export default function CartDrawer() {
                 {formatMoney(cartSubtotal)}
               </span>
             </div>
-            <Link
-              to="/checkout"
-              onClick={() => setCartOpen(false)}
+            <button
+              type="button"
+              onClick={handleCopyCart}
               className="btn-accent"
               style={{ width: '100%' }}
             >
-              PROCEED TO CHECKOUT <ArrowRight size={15} />
-            </Link>
+              {copied ? <Check size={15} /> : <Copy size={15} />}
+              {copied ? 'COPIED! SEND ON SIGNAL OR TELEGRAM' : 'COPY ORDER FOR SIGNAL / TELEGRAM'}
+            </button>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <a
+                href={signalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pp-icon-btn"
+                style={{ flex: 1, background: '#3a76f0', borderColor: '#3a76f0', color: '#ffffff' }}
+              >
+                OPEN SIGNAL
+              </a>
+              <a
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pp-icon-btn"
+                style={{ flex: 1, background: '#2aabee', borderColor: '#2aabee', color: '#ffffff' }}
+              >
+                OPEN TELEGRAM
+              </a>
+            </div>
             <Link
               to="/cart"
               onClick={() => setCartOpen(false)}

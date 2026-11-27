@@ -43,7 +43,7 @@ export default function Footer() {
         background: 'var(--dark-bg)',
         color: 'var(--dark-fg)',
         borderTop: '1px solid var(--dark-border)',
-        marginTop: 64,
+        marginTop: 0,
       }}
     >
       {/* Trust Bar */}

@@ -237,7 +237,7 @@ app.get('/api/products', (req, res) => {
         (p) => p.isSale || p.categories.includes('specials') || p.categories.includes('special-deals')
       );
     } else if (catLower === 'todays-drop') {
-      rows = rows.filter((p) => p.isNew || p.categories.includes('todays-drop'));
+      rows = rows.filter((p) => p.categories.includes('todays-drop'));
     } else {
       rows = rows.filter(
         (p) => p.categorySlug === catLower || p.categories.includes(catLower)

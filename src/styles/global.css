@@ -216,6 +216,36 @@ img {
   flex-shrink: 0;
 }
 
+.pp-social-apps {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pp-app-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.15s, filter 0.15s;
+}
+
+.pp-app-icon:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.pp-app-signal {
+  background: #3a76f0;
+}
+
+.pp-app-telegram {
+  background: #2aabee;
+}
+
 .pp-icon-btn {
   display: inline-flex;
   align-items: center;
@@ -599,6 +629,28 @@ img {
 }
 
 @media (max-width: 600px) {
+  .pp-nav-row {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .pp-logo {
+    font-size: 16px;
+    gap: 8px;
+  }
+  .pp-header-actions {
+    gap: 6px;
+  }
+  .pp-app-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+  .pp-icon-btn {
+    padding: 7px 8px;
+  }
+  .pp-cart-btn {
+    padding: 7px 10px;
+  }
   .pp-product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;

@@ -238,29 +238,49 @@ export default function Header() {
           </div>
 
           <div className="pp-header-actions">
-            <a
-              href={signalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pp-icon-btn pp-desktop-only"
-              title="Message PRO PACKS on Signal"
-              aria-label="Signal"
-              style={{ borderColor: '#3a76f0', color: '#3a76f0' }}
-            >
-              <span>SIGNAL</span>
-            </a>
+            <div className="pp-social-apps">
+              <a
+                href={signalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pp-app-icon pp-app-signal"
+                title="Message PRO PACKS on Signal"
+                aria-label="Signal"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path
+                    fill="#ffffff"
+                    d="M12 4.2c-4.3 0-7.8 3.2-7.8 7.3 0 1.6.5 3.1 1.5 4.3l-.9 3.1 3.2-.9c1.2.6 2.6 1 4 1 4.3 0 7.8-3.2 7.8-7.3S16.3 4.2 12 4.2z"
+                  />
+                  <circle
+                    cx="12"
+                    cy="11.5"
+                    r="9.4"
+                    fill="none"
+                    stroke="#ffffff"
+                    strokeWidth="1.4"
+                    strokeDasharray="2.3 2.1"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </a>
 
-            <a
-              href={telegramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pp-icon-btn pp-desktop-only"
-              title="Join PRO PACKS on Telegram"
-              aria-label="Telegram"
-              style={{ borderColor: '#0088cc', color: '#0088cc' }}
-            >
-              <span>TELEGRAM</span>
-            </a>
+              <a
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pp-app-icon pp-app-telegram"
+                title="Join PRO PACKS on Telegram"
+                aria-label="Telegram"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path
+                    fill="#ffffff"
+                    d="M19.9 5.3c.2-.8-.6-1.4-1.3-1.1L4.2 9.9c-.9.3-.8 1.6 0 1.9l3.6 1.2 1.4 4.3c.2.6 1 .8 1.4.3l2.1-2.1 3.9 2.9c.7.5 1.7.1 1.9-.7L19.9 5.3zm-3.2 2.4-6.9 6.2-.3 2.3-.9-3.1 8.1-5.4z"
+                  />
+                </svg>
+              </a>
+            </div>
 
             {compareItems.length > 0 && (
               <button
@@ -400,20 +420,20 @@ export default function Header() {
               <Link to="/contact" style={{ padding: '8px 0', borderBottom: '1px solid var(--border)' }}>CONTACT US</Link>
               <div style={{ display: 'flex', gap: 8, padding: '8px 0', borderBottom: '1px solid var(--border)' }}>
                 <a
-                  href="https://signal.me"
+                  href={signalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="pp-icon-btn"
-                  style={{ flex: 1, borderColor: '#3a76f0', color: '#3a76f0' }}
+                  style={{ flex: 1, background: '#3a76f0', borderColor: '#3a76f0', color: '#ffffff' }}
                 >
                   SIGNAL
                 </a>
                 <a
-                  href="https://t.me/propacksclub"
+                  href={telegramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="pp-icon-btn"
-                  style={{ flex: 1, borderColor: '#0088cc', color: '#0088cc' }}
+                  style={{ flex: 1, background: '#2aabee', borderColor: '#2aabee', color: '#ffffff' }}
                 >
                   TELEGRAM
                 </a>

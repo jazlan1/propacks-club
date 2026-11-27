@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Minus, Trash2, ShoppingBag, ArrowRight, Tag } from 'lucide-react';
+import { Plus, Minus, Trash2, ShoppingBag, ArrowRight, Tag, Copy, Check } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
-import { apiFetch, formatMoney } from '../lib/api';
+import { apiFetch, formatMoney, formatCartOrderText, copyTextToClipboard } from '../lib/api';
 
 export default function CartPage() {
-  const { cart, cartSubtotal, updateCartQty, removeFromCart, clearCart, addToast } = useStore();
+  const { cart, cartSubtotal, updateCartQty, removeFromCart, clearCart, addToast, siteConfig } = useStore();
   const [promoInput, setPromoInput] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  const signalUrl = siteConfig?.signal_url || 'https://signal.me';
+  const telegramUrl = siteConfig?.telegram_url || 'https://t.me/propacksclub';
 
   const handleApplyPromo = async (e) => {
     e.preventDefault();
@@ -25,7 +29,25 @@ export default function CartPage() {
   };
 
   if (cart.length === 0) {
-    return (
+    const handleCopyOrder = async () => {
+    const text = formatCartOrderText({
+      cart,
+      subtotal: cartSubtotal,
+      appliedCoupon,
+      shippingEstimate,
+      total,
+    });
+    const ok = await copyTextToClipboard(text);
+    if (ok) {
+      setCopied(true);
+      addToast('Cart copied! Paste & send on Signal or Telegram.', 'success');
+      setTimeout(() => setCopied(false), 2500);
+    } else {
+      addToast('Could not copy automatically. Please screenshot your cart.', 'error');
+    }
+  };
+
+  return (
       <main className="container" style={{ padding: '72px 16px', textAlign: 'center' }}>
         <ShoppingBag size={48} style={{ margin: '0 auto 14px', opacity: 0.35 }} />
         <h1 className="font-display" style={{ fontSize: 32, margin: '0 0 10px' }}>
@@ -45,6 +67,24 @@ export default function CartPage() {
   const discount = appliedCoupon?.discount || 0;
   const shippingEstimate = cartSubtotal >= 300 || appliedCoupon?.type === 'shipping' ? 0 : 15;
   const total = Math.max(0, cartSubtotal - discount + shippingEstimate);
+
+  const handleCopyOrder = async () => {
+    const text = formatCartOrderText({
+      cart,
+      subtotal: cartSubtotal,
+      appliedCoupon,
+      shippingEstimate,
+      total,
+    });
+    const ok = await copyTextToClipboard(text);
+    if (ok) {
+      setCopied(true);
+      addToast('Cart copied! Paste & send on Signal or Telegram.', 'success');
+      setTimeout(() => setCopied(false), 2500);
+    } else {
+      addToast('Could not copy automatically. Please screenshot your cart.', 'error');
+    }
+  };
 
   return (
     <main className="container" style={{ paddingTop: 32, paddingBottom: 56 }}>
@@ -172,13 +212,36 @@ export default function CartPage() {
             </div>
           </div>
 
-          <Link
-            to={`/checkout${appliedCoupon ? `?coupon=${appliedCoupon.code}` : ''}`}
+          <button
+            type="button"
+            onClick={handleCopyOrder}
             className="btn-accent"
             style={{ width: '100%' }}
           >
-            PROCEED TO CHECKOUT <ArrowRight size={15} />
-          </Link>
+            {copied ? <Check size={15} /> : <Copy size={15} />}
+            {copied ? 'COPIED! SEND ON SIGNAL OR TELEGRAM' : 'COPY ORDER FOR SIGNAL / TELEGRAM'}
+          </button>
+
+          <div style={{ display: 'flex', gap: 8 }}>
+            <a
+              href={signalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pp-icon-btn"
+              style={{ flex: 1, background: '#3a76f0', borderColor: '#3a76f0', color: '#ffffff' }}
+            >
+              OPEN SIGNAL
+            </a>
+            <a
+              href={telegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pp-icon-btn"
+              style={{ flex: 1, background: '#2aabee', borderColor: '#2aabee', color: '#ffffff' }}
+            >
+              OPEN TELEGRAM
+            </a>
+          </div>
         </div>
       </div>
     </main>

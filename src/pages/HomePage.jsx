@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShieldCheck, PackageCheck, Truck, Sparkles } from 'lucide-react';
+import { ArrowRight, CalendarCheck, Camera, Package, Sparkles } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { apiFetch } from '../lib/api';
 import { useStore } from '../context/StoreContext';
 
 export default function HomePage() {
-  const { recentlyViewed, totalCatalogCount } = useStore();
+  const { recentlyViewed, totalCatalogCount, siteConfig } = useStore();
+  const signalUrl = siteConfig?.signal_url || 'https://signal.me';
+  const telegramUrl = siteConfig?.telegram_url || 'https://t.me/propacksclub';
   const [todaysDrop, setTodaysDrop] = useState([]);
   const [specialDeals, setSpecialDeals] = useState([]);
   const [indoorDrops, setIndoorDrops] = useState([]);
@@ -337,75 +339,125 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* How It Works */}
+      {/* How To Order */}
       <section
         style={{
-          background: 'var(--bg-sky)',
-          borderTop: '1px solid var(--border)',
+          background: '#0a0a0a',
+          color: '#ffffff',
+          borderTop: '1px solid var(--fg)',
           padding: '56px 0',
         }}
       >
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: 620, margin: '0 auto 36px' }}>
-            <div className="font-mono" style={{ fontSize: 11, color: 'var(--accent)', fontWeight: 700 }}>
-              DIRECT ONLINE CHECKOUT · NO MIDDLEMEN
-            </div>
-            <h2 className="font-display" style={{ margin: '6px 0 10px', fontSize: 'clamp(26px, 3vw, 36px)' }}>
-              HOW PRO PACKS WORKS
-            </h2>
-            <p style={{ margin: 0, fontSize: 14, color: 'var(--fg-muted)' }}>
-              Streamlined wholesale & craft ordering from our Los Angeles vault directly to your address.
-            </p>
-          </div>
+        <div className="container" style={{ maxWidth: 820, textAlign: 'center' }}>
+          <h2
+            className="font-display"
+            style={{
+              margin: '0 0 36px',
+              fontSize: 'clamp(28px, 4vw, 40px)',
+              letterSpacing: '0.04em',
+              color: '#ffffff',
+            }}
+          >
+            HOW TO ORDER
+          </h2>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: 16,
+              gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+              gap: 28,
+              marginBottom: 34,
             }}
           >
-            <div style={{ background: 'var(--card)', border: '1px solid var(--fg)', padding: 24 }}>
-              <PackageCheck size={28} color="#7c3aed" style={{ marginBottom: 14 }} />
-              <div className="font-mono" style={{ fontSize: 11, color: 'var(--accent)', fontWeight: 700 }}>
-                STEP 01
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+              <CalendarCheck size={42} strokeWidth={1.75} color="#ffffff" />
+              <div style={{ fontSize: 15, fontWeight: 600, color: '#f5f5f5' }}>
+                1. Add Items to Your Cart
               </div>
-              <h3 className="font-display" style={{ fontSize: 18, margin: '6px 0 8px' }}>
-                BUILD YOUR PACKS
-              </h3>
-              <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-muted)', lineHeight: 1.55 }}>
-                Filter by cultivation, price, or strain. Pick your exact weight tier (QP, HP, P, or
-                unit) and add straight to your cart.
-              </p>
             </div>
 
-            <div style={{ background: 'var(--card)', border: '1px solid var(--fg)', padding: 24 }}>
-              <ShieldCheck size={28} color="#7c3aed" style={{ marginBottom: 14 }} />
-              <div className="font-mono" style={{ fontSize: 11, color: 'var(--accent)', fontWeight: 700 }}>
-                STEP 02
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+              <Camera size={42} strokeWidth={1.75} color="#ffffff" />
+              <div style={{ fontSize: 15, fontWeight: 600, color: '#f5f5f5' }}>
+                2. Screenshot your Cart
               </div>
-              <h3 className="font-display" style={{ fontSize: 18, margin: '6px 0 8px' }}>
-                CHECKOUT & SEAL
-              </h3>
-              <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-muted)', lineHeight: 1.55 }}>
-                Apply promo codes, choose Card, Zelle, Cash App, or Crypto, and submit your order
-                with instant confirmation.
-              </p>
             </div>
 
-            <div style={{ background: 'var(--card)', border: '1px solid var(--fg)', padding: 24 }}>
-              <Truck size={28} color="#7c3aed" style={{ marginBottom: 14 }} />
-              <div className="font-mono" style={{ fontSize: 11, color: 'var(--accent)', fontWeight: 700 }}>
-                STEP 03
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+              <Package size={42} strokeWidth={1.75} color="#ffffff" />
+              <div style={{ fontSize: 15, fontWeight: 600, color: '#f5f5f5' }}>
+                3. Send to us on Signal Or Telegram
               </div>
-              <h3 className="font-display" style={{ fontSize: 18, margin: '6px 0 8px' }}>
-                TRACKED DELIVERY
-              </h3>
-              <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-muted)', lineHeight: 1.55 }}>
-                Orders are triple vacuum-sealed and dispatched same-day with live tracking numbers in
-                your account dashboard.
-              </p>
             </div>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 14,
+              marginBottom: 32,
+            }}
+          >
+            <a
+              href={signalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pp-app-icon pp-app-signal"
+              title="Order on Signal"
+              aria-label="Signal"
+              style={{ width: 52, height: 52, borderRadius: 13 }}
+            >
+              <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+                <path
+                  fill="#ffffff"
+                  d="M12 4.2c-4.3 0-7.8 3.2-7.8 7.3 0 1.6.5 3.1 1.5 4.3l-.9 3.1 3.2-.9c1.2.6 2.6 1 4 1 4.3 0 7.8-3.2 7.8-7.3S16.3 4.2 12 4.2z"
+                />
+                <circle
+                  cx="12"
+                  cy="11.5"
+                  r="9.4"
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeWidth="1.4"
+                  strokeDasharray="2.3 2.1"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </a>
+
+            <a
+              href={telegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pp-app-icon pp-app-telegram"
+              title="Order on Telegram"
+              aria-label="Telegram"
+              style={{ width: 52, height: 52, borderRadius: 13 }}
+            >
+              <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+                <path
+                  fill="#ffffff"
+                  d="M19.9 5.3c.2-.8-.6-1.4-1.3-1.1L4.2 9.9c-.9.3-.8 1.6 0 1.9l3.6 1.2 1.4 4.3c.2.6 1 .8 1.4.3l2.1-2.1 3.9 2.9c.7.5 1.7.1 1.9-.7L19.9 5.3zm-3.2 2.4-6.9 6.2-.3 2.3-.9-3.1 8.1-5.4z"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <div
+            className="font-mono"
+            style={{
+              fontSize: 12,
+              lineHeight: 1.65,
+              color: '#b8b8b8',
+              maxWidth: 620,
+              margin: '0 auto',
+            }}
+          >
+            <div style={{ fontWeight: 700, color: '#ffffff', marginBottom: 4 }}>*DISCLAIMERS:</div>
+            No Re-ships for wrong address. Please specify payment method and ensure your info is
+            correct. Non-refundable policy
           </div>
         </div>
       </section>

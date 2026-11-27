@@ -23,31 +23,47 @@ for line in lines:
 if current:
     messages.append(current)
 
-pending_images = []
 raw_products = []
+pending_images = []
+flowers_album_mode = False
 
 for msg in messages:
     if msg['sender'] != '+370 623 72504':
         continue
     txt = msg['text'].strip()
-    if not txt or '*DISPOSABLES*' in txt or '*Flowers*' in txt:
+    if '*DISPOSABLES*' in txt or '*Flowers*' in txt:
+        continue
+    if not txt:
+        # The 29 empty-message gap (videos) right before Orange Zerbet separates
+        # "caption on 1st image" posts from "caption on 2nd image" flower albums.
+        if raw_products:
+            flowers_album_mode = True
+            pending_images = []
         continue
 
     img_match = re.findall(r'(IMG-\d+-WA\d+\.jpg)\s*\(file attached\)', txt)
     clean_txt = re.sub(r'IMG-\d+-WA\d+\.jpg\s*\(file attached\)', '', txt).strip()
 
-    for im in img_match:
-        pending_images.append(im)
-
     if clean_txt:
         if clean_txt.lower() == 'hello':
             pending_images = []
             continue
+        if flowers_album_mode:
+            # In the Flower albums after the gap, leading IMG-only messages belong to this product
+            imgs = pending_images + list(img_match)
+            pending_images = []
+        else:
+            # Before the gap, caption is on the 1st photo; trailing IMG-only messages follow
+            imgs = list(img_match)
         raw_products.append({
-            'images': pending_images[:],
+            'images': imgs,
             'raw_text': clean_txt
         })
-        pending_images = []
+    elif img_match:
+        if flowers_album_mode:
+            pending_images.extend(img_match)
+        elif raw_products:
+            raw_products[-1]['images'].extend(img_match)
 
 if pending_images and raw_products:
     raw_products[-1]['images'].extend(pending_images)
@@ -67,17 +83,17 @@ def strip_emojis_arrows(s):
 def classify_product(title_lower, desc_lower):
     combined = f"{title_lower} {desc_lower}"
     if any(k in combined for k in ['disposable', 'dispo', 'vape', 'muhamed', 'splitz 2g', 'buddah bear 2g', 'warheadz 2g', 'dropout 3g', 'propen', 'cry baby']):
-        return 'carts', ['carts', 'todays-drop']
+        return 'carts', ['carts']
     if any(k in combined for k in ['rosin', 'dry sift', 'candy mousse', 'pucks']):
-        return 'terp', ['terp', 'todays-drop']
+        return 'terp', ['terp']
     if any(k in combined for k in ['badder', 'wax', 'sugar', 'lootbox', 'shatter', 'crumble']):
-        return 'wax', ['wax', 'todays-drop']
+        return 'wax', ['wax']
     if any(k in combined for k in ['joint', 'hashhole', 'hash hole', 'hashholes', 'donuts', 'pre-roll']):
-        return 'prerolls', ['prerolls', 'todays-drop']
+        return 'prerolls', ['prerolls']
     if 'smalls' in combined:
-        return 'smalls', ['smalls', 'indoor']
+        return 'smalls', ['smalls', 'indoor', 'todays-drop']
     if 'mixed light' in combined:
-        return 'mixed-light', ['mixed-light']
+        return 'mixed-light', ['mixed-light', 'todays-drop']
     if any(k in combined for k in ['1/8th', '3.5g', 'zip', 'pre-packaged']):
         return 'personal-smoke', ['personal-smoke', 'exotic']
     if any(k in combined for k in ['indoor', 'indoors', 'pillows diamond']):
@@ -179,13 +195,16 @@ for rp in raw_products:
 
     variants = extract_variants(body_lines, raw_title)
 
-    # Description: lines that are NOT price lines
+    # Description: lines that are NOT price lines (deduplicated)
     desc_lines = []
+    seen_desc = set()
     for ln in body_lines:
         clean_ln = ln.replace('📦', '').strip()
         if re.match(r'^(\d+\+\s*)?\$\d+', clean_ln) or '📲' in clean_ln:
             continue
-        desc_lines.append(ln)
+        if ln not in seen_desc:
+            seen_desc.add(ln)
+            desc_lines.append(ln)
 
     description = ' '.join(desc_lines).strip()
     if not description:
