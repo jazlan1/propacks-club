@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, CalendarCheck, Camera, Package, Sparkles } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import SeoHead from '../components/SeoHead';
-import { apiFetch } from '../lib/api';
+import { apiFetch, DEFAULT_SIGNAL_URL, DEFAULT_TELEGRAM_URL } from '../lib/api';
 import { useStore } from '../context/StoreContext';
 
 export default function HomePage() {
   const { recentlyViewed, totalCatalogCount, siteConfig } = useStore();
-  const signalUrl = siteConfig?.signal_url || 'https://signal.me';
-  const telegramUrl = siteConfig?.telegram_url || 'https://t.me/propacksclub';
+  const signalUrl = siteConfig?.signal_url || DEFAULT_SIGNAL_URL;
+  const telegramUrl = siteConfig?.telegram_url || DEFAULT_TELEGRAM_URL;
   const heroBadge = siteConfig?.hero_badge || 'SEALED PACKS · LOS ANGELES · EST. 2023';
   const heroTitle = siteConfig?.hero_title || 'BAGGED. SEALED. DELIVERED.';
   const heroSubtitle =

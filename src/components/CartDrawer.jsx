@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { X, Plus, Minus, Trash2, ShoppingBag, Copy, Check } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
-import { formatMoney, formatCartOrderText, copyTextToClipboard } from '../lib/api';
+import { formatMoney, formatCartOrderText, copyTextToClipboard, DEFAULT_SIGNAL_URL, DEFAULT_TELEGRAM_URL } from '../lib/api';
 
 export default function CartDrawer() {
   const {
@@ -19,8 +19,8 @@ export default function CartDrawer() {
 
   if (!cartOpen) return null;
 
-  const signalUrl = siteConfig?.signal_url || 'https://signal.me';
-  const telegramUrl = siteConfig?.telegram_url || 'https://t.me/propacksclub';
+  const signalUrl = siteConfig?.signal_url || DEFAULT_SIGNAL_URL;
+  const telegramUrl = siteConfig?.telegram_url || DEFAULT_TELEGRAM_URL;
 
   const handleCopyCart = async () => {
     const text = formatCartOrderText({ cart, subtotal: cartSubtotal, total: cartSubtotal });

@@ -3,7 +3,6 @@ import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   Search,
   ShoppingBag,
-  Heart,
   User,
   Menu,
   X,
@@ -12,7 +11,7 @@ import {
   Package,
 } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
-import { apiFetch, formatMoney } from '../lib/api';
+import { apiFetch, formatMoney, DEFAULT_SIGNAL_URL, DEFAULT_TELEGRAM_URL } from '../lib/api';
 
 export default function Header() {
   const {
@@ -22,7 +21,6 @@ export default function Header() {
     siteConfig,
     cartCount,
     setCartOpen,
-    wishlistIds,
     compareItems,
     setCompareOpen,
   } = useStore();
@@ -76,8 +74,8 @@ export default function Header() {
     '★ PRO PACKS · LA DIRECT BULK DROPS   ★ NEW DROPS EVERY DAY   ★ 10% OFF FIRST ORDER WITH CODE PROPACK10   ★ FREE SHIPPING ON ORDERS $300+   ★ TRIPLE VACUUM-SEALED & TRACKED';
   const siteName = siteConfig?.site_name || 'PRO PACKS';
   const logoUrl = siteConfig?.logo_url || '/images/propacks-logo.jpg';
-  const signalUrl = siteConfig?.signal_url || 'https://signal.me';
-  const telegramUrl = siteConfig?.telegram_url || 'https://t.me/propacksclub';
+  const signalUrl = siteConfig?.signal_url || DEFAULT_SIGNAL_URL;
+  const telegramUrl = siteConfig?.telegram_url || DEFAULT_TELEGRAM_URL;
 
   return (
     <>
@@ -238,6 +236,46 @@ export default function Header() {
           </div>
 
           <div className="pp-header-actions">
+            {compareItems.length > 0 && (
+              <button
+                className="pp-icon-btn pp-desktop-only"
+                onClick={() => setCompareOpen(true)}
+                title="Compare Products"
+              >
+                <GitCompare size={15} />
+                <span>{compareItems.length}</span>
+              </button>
+            )}
+
+            <Link
+              to="/track-order"
+              className="pp-icon-btn pp-desktop-only"
+              title="Track Order"
+            >
+              <Package size={15} />
+              <span>TRACK</span>
+            </Link>
+
+            <Link
+              to={user ? '/account' : '/login'}
+              className="pp-icon-btn"
+              title={user ? `Account (${user.name})` : 'Sign In'}
+            >
+              <User size={15} />
+              <span className="pp-desktop-only">
+                {user ? user.name.split(' ')[0] : 'SIGN IN'}
+              </span>
+            </Link>
+
+            <button
+              className="pp-cart-btn"
+              onClick={() => setCartOpen(true)}
+              aria-label="Open Shopping Cart"
+            >
+              <ShoppingBag size={15} />
+              <span>CART {String(cartCount).padStart(2, '0')}</span>
+            </button>
+
             <div className="pp-social-apps">
               <a
                 href={signalUrl}
@@ -247,7 +285,7 @@ export default function Header() {
                 title="Message PRO PACKS on Signal"
                 aria-label="Signal"
               >
-                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
                   <path
                     fill="#ffffff"
                     d="M12 4.2c-4.3 0-7.8 3.2-7.8 7.3 0 1.6.5 3.1 1.5 4.3l-.9 3.1 3.2-.9c1.2.6 2.6 1 4 1 4.3 0 7.8-3.2 7.8-7.3S16.3 4.2 12 4.2z"
@@ -273,7 +311,7 @@ export default function Header() {
                 title="Join PRO PACKS on Telegram"
                 aria-label="Telegram"
               >
-                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
                   <path
                     fill="#ffffff"
                     d="M19.9 5.3c.2-.8-.6-1.4-1.3-1.1L4.2 9.9c-.9.3-.8 1.6 0 1.9l3.6 1.2 1.4 4.3c.2.6 1 .8 1.4.3l2.1-2.1 3.9 2.9c.7.5 1.7.1 1.9-.7L19.9 5.3zm-3.2 2.4-6.9 6.2-.3 2.3-.9-3.1 8.1-5.4z"
@@ -281,56 +319,6 @@ export default function Header() {
                 </svg>
               </a>
             </div>
-
-            {compareItems.length > 0 && (
-              <button
-                className="pp-icon-btn pp-desktop-only"
-                onClick={() => setCompareOpen(true)}
-                title="Compare Products"
-              >
-                <GitCompare size={15} />
-                <span>{compareItems.length}</span>
-              </button>
-            )}
-
-            <Link
-              to="/track-order"
-              className="pp-icon-btn pp-desktop-only"
-              title="Track Order"
-            >
-              <Package size={15} />
-              <span>TRACK</span>
-            </Link>
-
-            <Link
-              to="/account?tab=wishlist"
-              className="pp-icon-btn"
-              title="Wishlist"
-              aria-label="Wishlist"
-            >
-              <Heart size={15} />
-              {wishlistIds.length > 0 && <span>{wishlistIds.length}</span>}
-            </Link>
-
-            <Link
-              to={user ? '/account' : '/login'}
-              className="pp-icon-btn"
-              title={user ? `Account (${user.name})` : 'Sign In'}
-            >
-              <User size={15} />
-              <span className="pp-desktop-only">
-                {user ? user.name.split(' ')[0] : 'SIGN IN'}
-              </span>
-            </Link>
-
-            <button
-              className="pp-cart-btn"
-              onClick={() => setCartOpen(true)}
-              aria-label="Open Shopping Cart"
-            >
-              <ShoppingBag size={15} />
-              <span>CART {String(cartCount).padStart(2, '0')}</span>
-            </button>
           </div>
         </div>
 

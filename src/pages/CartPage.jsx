@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Minus, Trash2, ShoppingBag, ArrowRight, Tag, Copy, Check } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
-import { apiFetch, formatMoney, formatCartOrderText, copyTextToClipboard } from '../lib/api';
+import { apiFetch, formatMoney, formatCartOrderText, copyTextToClipboard, DEFAULT_SIGNAL_URL, DEFAULT_TELEGRAM_URL } from '../lib/api';
 
 export default function CartPage() {
   const { cart, cartSubtotal, updateCartQty, removeFromCart, clearCart, addToast, siteConfig } = useStore();
@@ -10,8 +10,8 @@ export default function CartPage() {
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [copied, setCopied] = useState(false);
 
-  const signalUrl = siteConfig?.signal_url || 'https://signal.me';
-  const telegramUrl = siteConfig?.telegram_url || 'https://t.me/propacksclub';
+  const signalUrl = siteConfig?.signal_url || DEFAULT_SIGNAL_URL;
+  const telegramUrl = siteConfig?.telegram_url || DEFAULT_TELEGRAM_URL;
 
   const handleApplyPromo = async (e) => {
     e.preventDefault();

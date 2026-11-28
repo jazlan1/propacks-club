@@ -1,5 +1,9 @@
 const API_BASE = '/api';
 
+export const DEFAULT_SIGNAL_URL =
+  'https://signal.me/#eu/9dXJPXo_xyWTgcxgrb1mjbv9WvPNjH21q2MFb_0pM8M4TtTwbI5B-JIKdmHW_Ka0';
+export const DEFAULT_TELEGRAM_URL = 'https://t.me/Distroactive247';
+
 export function getToken() {
   return localStorage.getItem('pp_token') || '';
 }

@@ -399,8 +399,11 @@ function seedSiteSettings() {
       'marquee_text',
       '★ PRO PACKS · LA DIRECT BULK DROPS   ★ NEW DROPS EVERY DAY   ★ 10% OFF FIRST ORDER WITH CODE PROPACK10   ★ FREE SHIPPING ON ORDERS $300+   ★ TRIPLE VACUUM-SEALED & TRACKED',
     ],
-    ['signal_url', 'https://signal.me'],
-    ['telegram_url', 'https://t.me/propacksclub'],
+    [
+      'signal_url',
+      'https://signal.me/#eu/9dXJPXo_xyWTgcxgrb1mjbv9WvPNjH21q2MFb_0pM8M4TtTwbI5B-JIKdmHW_Ka0',
+    ],
+    ['telegram_url', 'https://t.me/Distroactive247'],
     ['contact_email', 'support@propacks.club'],
     ['hours', '9:00 AM – 8:30 PM PST Daily'],
     ['seo_title', 'PRO PACKS — Sealed. Cured. Delivered. | LA Craft & Bulk Drops'],

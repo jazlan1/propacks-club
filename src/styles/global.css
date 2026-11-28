@@ -219,17 +219,18 @@ img {
 .pp-social-apps {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
 }
 
 .pp-app-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(10, 10, 10, 0.16);
   transition: transform 0.15s, filter 0.15s;
 }
 
@@ -638,12 +639,13 @@ img {
     gap: 8px;
   }
   .pp-header-actions {
-    gap: 6px;
+    gap: 7px;
+    margin-left: auto;
   }
   .pp-app-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
   }
   .pp-icon-btn {
     padding: 7px 8px;
